@@ -22,13 +22,25 @@ class App extends React.Component {
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
+   getTime = () => {
+    const timeStamp = Date.now();
+    const time = timeStamp - this.state.startTime;
+    return setInterval(() => {
+      this.setState({
+        currentTime: this.getTimeAsAString(time)
+      })
+    }, 100);
+  }
+
   handleStart = () => {
+    this.getTime();
     this.setState({
       startTime: Date.now(),
       running: true
     });
-    console.log("start clicked", this.state);
+    console.log("Start clicked", this.state)
   };
+
   handleLap = () => {
     const timeStamp = Date.now();
     let currentLap = timeStamp - this.state.startTime
@@ -37,22 +49,35 @@ class App extends React.Component {
       startTime: this.state.startTime,
       currentTime: 0,
       laps: [...this.state.laps, currentLap],
-      running: false
     })
     console.log("lap clicked", this.state)
   };
+  handleStop = () => {
+    this.setState({
+      running: false
+    })
+    console.log("stop clicked", this.state)
+  }
+
 
 
   render() {
     return (
       <div className="App">
         <h1>Stopwatch</h1>
-        <div>{this.getTimeAsAString(this.state.currentTime)}</div>
-        <button onClick={e => this.handleStart(e)}>Start</button>
-        <button onClick={e => this.handleLap(e)}>Lap</button>
-        {this.state.laps.map(lap => <ul>
-          <li>{lap}</li>
-        </ul>)}
+        <div>{this.state.currentTime}</div>
+        <div className="btnContainer">
+          <button className="btn startBtn" onClick={e => this.handleStart(e)}>Start</button>
+          <button disabled={!this.state.running} className="btn lapBtn"onClick={e => this.handleLap(e)}>Lap</button>
+          <button className="btn stopBtn" onClick={e => this.handleStop(e)}>Stop</button>
+          <button className="btn resetBtn" onClick={e => this.handleReset(e)}>Reset</button>
+        </div>
+        <div className="lapContainer">
+        <ul>{this.state.laps.map((lap, i) => 
+          <li key={i}>{lap}</li>
+        )}
+        </ul>
+        </div>
       </div>
     );
 
