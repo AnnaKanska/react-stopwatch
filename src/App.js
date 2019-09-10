@@ -6,15 +6,8 @@ class App extends React.Component {
   state = {
     startTime: 0,
     currentTime: 0,
+    laps: [],
     running: false
-  };
-
-  handleStart = () => {
-    this.setState({
-      startTime: Date.now(),
-      running: true
-    });
-    console.log("button clicked", this.state);
   };
 
   getTimeAsAString = time => {
@@ -29,18 +22,40 @@ class App extends React.Component {
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
+  handleStart = () => {
+    this.setState({
+      startTime: Date.now(),
+      running: true
+    });
+    console.log("start clicked", this.state);
+  };
+  handleLap = () => {
+    const timeStamp = Date.now();
+    let currentLap = timeStamp - this.state.startTime
+    currentLap = this.getTimeAsAString(currentLap)
+    this.setState({
+      startTime: this.state.startTime,
+      currentTime: 0,
+      laps: [...this.state.laps, currentLap],
+      running: false
+    })
+    console.log("lap clicked", this.state)
+  };
+
+
   render() {
     return (
       <div className="App">
         <h1>Stopwatch</h1>
-        <Stopwatch
-          startTime={this.state.startTime}
-          running={this.state.running}
-        />
-        <div>{this.getTimeAsAString(Date.now())}</div>
+        <div>{this.getTimeAsAString(this.state.currentTime)}</div>
         <button onClick={e => this.handleStart(e)}>Start</button>
+        <button onClick={e => this.handleLap(e)}>Lap</button>
+        {this.state.laps.map(lap => <ul>
+          <li>{lap}</li>
+        </ul>)}
       </div>
     );
+
   }
 }
 
