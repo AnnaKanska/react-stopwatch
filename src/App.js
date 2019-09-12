@@ -15,6 +15,7 @@ class Stopwatch extends React.Component {
   state = {
     status: false,
     runningTime: 0,
+    prevLapTime: 0,
     nextId: 1,
     laps: []
   };
@@ -33,33 +34,25 @@ class Stopwatch extends React.Component {
       }
       return { status: !state.status };
     });
-    console.log("start/stop clicked", this.runningTime);
   };
 
   handleLap = () => {
-    const timeStamp = Date.now();
-    const startTime = timeStamp - this.state.runningTime;
-    let currentLap = {id: this.state.nextId, time: 0};
-    //let prevLap = this.state.laps.length ? this.state.laps[this.state.laps.length - 1].time : 0;
-    if (this.state.laps.length < 1) {
-      currentLap.time = timeStamp - startTime;
-    } else {
-      let prevLap = this.state.laps[this.state.laps.length - 1].time;
-      currentLap.time = timeStamp - startTime - prevLap;
+    const { runningTime, prevLapTime, nextId } = this.state;
+    const currentLap = {
+      id: nextId,
+      time: runningTime - prevLapTime,
     }
 
     this.setState({
       laps: [...this.state.laps, currentLap],
       nextId: this.state.nextId + 1,
-      currentTime: timeStamp - startTime
+      prevLapTime: runningTime,
     });
-    console.log(this.state);
   };
 
   handleReset = () => {
     clearInterval(this.timer);
-    this.setState({ runningTime: 0, running: false });
-    console.log("reset clicked");
+    this.setState({ runningTime: 0, running: false, laps: [], nextId: 1 });
   };
 
   getTimeAsAString = time => {
@@ -75,6 +68,7 @@ class Stopwatch extends React.Component {
   };
 
   render() {
+    console.log(this.state.laps.time)
     const { status, runningTime } = this.state;
     return (
       <div>
@@ -90,8 +84,11 @@ class Stopwatch extends React.Component {
         </button>
         <div className="lapContainer">
           <ul>
-            {this.state.laps.map((lap) => (
-              <li key={lap.id}>{this.getTimeAsAString(lap.time)}</li>
+            {this.state.laps.slice(0).reverse().map((lap) => (
+              <li key={lap.id}>
+                <h3>Lap {lap.id}</h3>
+              <h3>{this.getTimeAsAString(lap.time)}</h3>
+              </li>
             ))}
           </ul>
         </div>
