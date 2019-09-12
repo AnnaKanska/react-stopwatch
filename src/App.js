@@ -1,13 +1,62 @@
 import React from "react";
 import "./App.css";
-import { Stopwatch } from "./Stopwatch";
 
 class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <Stopwatch />
+      </div>
+    );
+  }
+}
+
+class Stopwatch extends React.Component {
   state = {
-    startTime: 0,
-    currentTime: 0,
-    laps: [],
-    running: false
+    status: false,
+    runningTime: 0,
+    laps: []
+  };
+
+  handleStartStop = () => {
+    this.setState(state => {
+      if (state.status) {
+        clearInterval(this.timer);
+      } else {
+        const startTime = Date.now() - this.state.runningTime;
+        this.timer = setInterval(() => {
+          this.setState({
+            runningTime: Date.now() - startTime
+          });
+        });
+      }
+      return { status: !state.status };
+    });
+    console.log("start/stop clicked", this.runningTime);
+  };
+
+  handleLap = () => {
+    const timeStamp = Date.now();
+    const startTime = Date.now() - this.state.runningTime;
+    let currentLap = 0;
+    let prevLap = this.state.laps[this.state.laps.length - 1];
+    if (this.state.laps.length < 1) {
+      currentLap = timeStamp - startTime;
+    } else {
+      currentLap = timeStamp - startTime - prevLap;
+    }
+
+    this.setState({
+      laps: [...this.state.laps, this.getTimeAsAString(currentLap)],
+      currentTime: this.timeStamp - this.startTime
+    });
+    console.log("this.state.runningTime", this.state.runningTime);
+  };
+
+  handleReset = () => {
+    clearInterval(this.timer);
+    this.setState({ runningTime: 0, running: false });
+    console.log("reset clicked");
   };
 
   getTimeAsAString = time => {
@@ -22,65 +71,29 @@ class App extends React.Component {
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
-   getTime = () => {
-    const timeStamp = Date.now();
-    const time = timeStamp - this.state.startTime;
-    return setInterval(() => {
-      this.setState({
-        currentTime: this.getTimeAsAString(time)
-      })
-    }, 100);
-  }
-
-  handleStart = () => {
-    this.getTime();
-    this.setState({
-      startTime: Date.now(),
-      running: true
-    });
-    console.log("Start clicked", this.state)
-  };
-
-  handleLap = () => {
-    const timeStamp = Date.now();
-    let currentLap = timeStamp - this.state.startTime
-    currentLap = this.getTimeAsAString(currentLap)
-    this.setState({
-      startTime: this.state.startTime,
-      currentTime: 0,
-      laps: [...this.state.laps, currentLap],
-    })
-    console.log("lap clicked", this.state)
-  };
-  handleStop = () => {
-    this.setState({
-      running: false
-    })
-    console.log("stop clicked", this.state)
-  }
-
-
-
   render() {
+    const { status, runningTime } = this.state;
     return (
-      <div className="App">
-        <h1>Stopwatch</h1>
-        <div>{this.state.currentTime}</div>
-        <div className="btnContainer">
-          <button className="btn startBtn" onClick={e => this.handleStart(e)}>Start</button>
-          <button disabled={!this.state.running} className="btn lapBtn"onClick={e => this.handleLap(e)}>Lap</button>
-          <button className="btn stopBtn" onClick={e => this.handleStop(e)}>Stop</button>
-          <button className="btn resetBtn" onClick={e => this.handleReset(e)}>Reset</button>
-        </div>
+      <div>
+        <h2>{this.getTimeAsAString(runningTime)}</h2>
+        <button className="btn startStopBtn" onClick={this.handleStartStop}>
+          {status ? "Stop" : "Start"}
+        </button>
+        <button className="btn lapBtn" onClick={this.handleLap}>
+          Lap
+        </button>
+        <button className="btn resetBtn" onClick={this.handleReset}>
+          Reset
+        </button>
         <div className="lapContainer">
-        <ul>{this.state.laps.map((lap, i) => 
-          <li key={i}>{lap}</li>
-        )}
-        </ul>
+          <ul>
+            {this.state.laps.map((lap, i) => (
+              <li key={i}>{lap}</li>
+            ))}
+          </ul>
         </div>
       </div>
     );
-
   }
 }
 
