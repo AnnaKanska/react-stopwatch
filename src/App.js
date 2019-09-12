@@ -15,6 +15,7 @@ class Stopwatch extends React.Component {
   state = {
     status: false,
     runningTime: 0,
+    nextId: 1,
     laps: []
   };
 
@@ -37,20 +38,22 @@ class Stopwatch extends React.Component {
 
   handleLap = () => {
     const timeStamp = Date.now();
-    const startTime = Date.now() - this.state.runningTime;
-    let currentLap = 0;
-    let prevLap = this.state.laps[this.state.laps.length - 1];
+    const startTime = timeStamp - this.state.runningTime;
+    let currentLap = {id: this.state.nextId, time: 0};
+    //let prevLap = this.state.laps.length ? this.state.laps[this.state.laps.length - 1].time : 0;
     if (this.state.laps.length < 1) {
-      currentLap = timeStamp - startTime;
+      currentLap.time = timeStamp - startTime;
     } else {
-      currentLap = timeStamp - startTime - prevLap;
+      let prevLap = this.state.laps[this.state.laps.length - 1].time;
+      currentLap.time = timeStamp - startTime - prevLap;
     }
 
     this.setState({
-      laps: [...this.state.laps, this.getTimeAsAString(currentLap)],
-      currentTime: this.timeStamp - this.startTime
+      laps: [...this.state.laps, currentLap],
+      nextId: this.state.nextId + 1,
+      currentTime: timeStamp - startTime
     });
-    console.log("this.state.runningTime", this.state.runningTime);
+    console.log(this.state);
   };
 
   handleReset = () => {
@@ -87,8 +90,8 @@ class Stopwatch extends React.Component {
         </button>
         <div className="lapContainer">
           <ul>
-            {this.state.laps.map((lap, i) => (
-              <li key={i}>{lap}</li>
+            {this.state.laps.map((lap) => (
+              <li key={lap.id}>{this.getTimeAsAString(lap.time)}</li>
             ))}
           </ul>
         </div>
