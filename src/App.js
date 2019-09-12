@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { tsImportEqualsDeclaration } from "@babel/types";
 
 class App extends React.Component {
   render() {
@@ -32,30 +33,39 @@ class Stopwatch extends React.Component {
           this.setState({
             runningTime: Date.now() - startTime
           });
-        });
+        }, 10);
       }
       return { status: !state.status };
     });
   };
 
   handleLap = () => {
-    const { runningTime, prevLapTime, nextId } = this.state;
+    const { runningTime, prevLapTime, nextId, laps } = this.state;
+
     const currentLap = {
       id: nextId,
       time: runningTime - prevLapTime,
     }
+    
+    let newArr = [currentLap, ...laps]
+
+    let sorted = [...newArr].sort((a, b) => a.time - b.time);
+
+    let newMinlap = sorted[0].id;
+    let newMaxlap = sorted[sorted.length -1].id
 
     this.setState({
-      laps: [...this.state.laps, currentLap],
+      laps: [currentLap, ...this.state.laps],
       nextId: this.state.nextId + 1,
       prevLapTime: runningTime,
+      minLap: newMinlap,
+      maxLap: newMaxlap
     });
-    this.getMinMax();
   };
 
   handleReset = () => {
     clearInterval(this.timer);
-    this.setState({ runningTime: 0, running: false, laps: [], nextId: 1 });
+    this.setState({ runningTime: 0, prevLapTime: 0, running: false, laps: [], nextId: 1 });
   };
 
   getTimeAsAString = time => {
@@ -70,24 +80,23 @@ class Stopwatch extends React.Component {
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
-  getMinMax = () => {
-    const lapsArr = this.state.laps.map(({time}) => time)
-    let minLapTime = Math.min(...lapsArr);
-    let maxLapTime = Math.max(...lapsArr);
-    for(let i = 0; i < this.state.laps.length; i ++){
-      if(lapsArr.length > 2 && this.state.laps[i].time === minLapTime){
-        console.log("min - ", this.state.laps[i].id)
-        this.setState({minLap: this.state.laps[i].id})
-      }else if(lapsArr.length >2 && this.state.laps[i].time === maxLapTime){
-        console.log("max - ", this.state.laps[i].id)
-        this.setState({maxLap: this.state.laps[i].id})
-    }
-  }
-
-  }
+//   getMinMax = () => {
+//     const lapsArr = this.state.laps.map(({time}) => time)
+//     let minLapTime = Math.min(...lapsArr);
+//     let maxLapTime = Math.max(...lapsArr);
+//     for(let i = 0; i < this.state.laps.length; i ++){
+//       if(lapsArr.length > 1 && this.state.laps[i].time === minLapTime){
+//         this.setState(state => {
+//           return { minLap: state.laps[i].id }
+//         }, () => console.log(this.state));
+//       }else if(lapsArr.length > 1 && this.state.laps[i].time === maxLapTime){
+//         this.setState({maxLap: this.state.laps[i].id})
+//     }
+//   }
+// }
 
   render() {
-    const { status, runningTime } = this.state;
+    const { status, runningTime, laps, minLap, maxLap } = this.state;
     return (
       <div>
         <h2>{this.getTimeAsAString(runningTime)}</h2>
@@ -102,9 +111,12 @@ class Stopwatch extends React.Component {
         </button>
         <div className="lapContainer">
           <ul>
-            {this.state.laps.slice(0).reverse().map((lap) => (
-              <li key={lap.id}
-              className={this.state.minLap === lap.id ? 'red' : 'listItem'}>
+            {laps.map((lap) => (
+              <li key={lap.id} style={{color: lap.id === minLap ? 'green' 
+                : lap.id === maxLap ? 'red' 
+                : lap.id === minLap && lap.id === maxLap ? 'black' 
+                : 'black'
+            }}>
                 <h3>Lap {lap.id}</h3>
               <h3>{this.getTimeAsAString(lap.time)}</h3>
               </li>
