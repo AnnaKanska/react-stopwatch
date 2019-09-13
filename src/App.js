@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import { stat } from "fs";
 
 class App extends React.Component {
   render() {
@@ -41,7 +40,6 @@ class Stopwatch extends React.Component {
 
   handleLap = () => {
     const { runningTime, prevLapTime, nextId, laps } = this.state;
-
     const currentLap = {
       id: nextId,
       time: runningTime - prevLapTime,
@@ -79,24 +77,8 @@ class Stopwatch extends React.Component {
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
-//   getMinMax = () => {
-//     const lapsArr = this.state.laps.map(({time}) => time)
-//     let minLapTime = Math.min(...lapsArr);
-//     let maxLapTime = Math.max(...lapsArr);
-//     for(let i = 0; i < this.state.laps.length; i ++){
-//       if(lapsArr.length > 1 && this.state.laps[i].time === minLapTime){
-//         this.setState(state => {
-//           return { minLap: state.laps[i].id }
-//         }, () => console.log(this.state));
-//       }else if(lapsArr.length > 1 && this.state.laps[i].time === maxLapTime){
-//         this.setState({maxLap: this.state.laps[i].id})
-//     }
-//   }
-// }
-
   render() {
     const { status, runningTime, laps, minLap, maxLap } = this.state;
-    console.log(laps.length)
     return (
       <div>
         <div className="timerContainer">
@@ -115,8 +97,12 @@ class Stopwatch extends React.Component {
         </div>
         <div className="lapContainer">
           <ul>
+            <li className="currentLap">
+            <h3 className="lapNo">Lap {laps.length + 1}</h3>
+              <h3 className="lapStopTime">{this.getTimeAsAString(runningTime)}</h3>
+            </li>
             {laps.map((lap) => (
-              <li key={lap.id} style={{color: (laps.length <= 2) ? 'white'
+              <li key={lap.id} style={{color: (laps.length <= 1) ? 'white'
                 : lap.id === minLap ? 'green' 
                 : lap.id === maxLap ? 'red'
                 : 'white'
