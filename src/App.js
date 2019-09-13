@@ -97,7 +97,7 @@ class Stopwatch extends React.Component {
         </div>
         <div className="lapContainer">
           <ul>
-            <li className="currentLap">
+            <li className="currentLap" style={{display: runningTime ? 'flex' : 'none' }}>
             <h3 className="lapNo">Lap {laps.length + 1}</h3>
               <h3 className="lapStopTime">{this.getTimeAsAString(runningTime)}</h3>
             </li>
