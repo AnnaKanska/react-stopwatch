@@ -48,7 +48,6 @@ class Stopwatch extends React.Component {
     }
     
     let newArr = [currentLap, ...laps]
-
     let sorted = [...newArr].sort((a, b) => a.time - b.time);
 
     let newMinlap = sorted[0].id;
@@ -100,17 +99,19 @@ class Stopwatch extends React.Component {
     console.log(laps.length)
     return (
       <div>
-        <h2 className="timer">{this.getTimeAsAString(runningTime)}</h2>
-        <div className="btnContainer">
-        <button className={status ? 'stopTimer' : 'startTimer'} onClick={this.handleStartStop}>
-          {status ? "Stop" : "Start"}
-        </button>
-        <button disabled={!status} className="btn lapBtn" onClick={this.handleLap} style={{display: !status && (laps.length > 0) ? 'none' : 'flex'}}>
-          Lap
-        </button>
-        <button className="btn resetBtn" onClick={this.handleReset} style={{display: !status && (laps.length > 0) ? 'flex' : 'none'}}>
-          Reset
-        </button>
+        <div className="timerContainer">
+          <h2 className="timer">{this.getTimeAsAString(runningTime)}</h2>
+          <div className="btnContainer">
+            <button className={status ? 'stopTimer' : 'startTimer'} onClick={this.handleStartStop}>
+              {status ? "Stop" : "Start"}
+            </button>
+            <button disabled={!status} className="btn lapBtn" onClick={this.handleLap} style={{display: !status && (laps.length > 0) ? 'none' : 'flex'}}>
+              Lap
+            </button>
+            <button className="btn resetBtn" onClick={this.handleReset} style={{display: !status && (laps.length > 0) ? 'flex' : 'none'}}>
+              Reset
+            </button>
+          </div>
         </div>
         <div className="lapContainer">
           <ul>
