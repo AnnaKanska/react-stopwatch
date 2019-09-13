@@ -78,7 +78,8 @@ class Stopwatch extends React.Component {
   };
 
   render() {
-    const { status, runningTime, laps, minLap, maxLap } = this.state;
+    console.log(this.state)
+    const { status, runningTime, prevLapTime, laps, minLap, maxLap } = this.state;
     return (
       <div>
         <div className="timerContainer">
@@ -99,7 +100,7 @@ class Stopwatch extends React.Component {
           <ul>
             <li className="currentLap" style={{display: runningTime ? 'flex' : 'none' }}>
             <h3 className="lapNo">Lap {laps.length + 1}</h3>
-              <h3 className="lapStopTime">{this.getTimeAsAString(runningTime)}</h3>
+              <h3 className="lapStopTime">{this.getTimeAsAString(runningTime - prevLapTime)}</h3>
             </li>
             {laps.map((lap) => (
               <li key={lap.id} style={{color: (laps.length <= 1) ? 'white'

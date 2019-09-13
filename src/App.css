@@ -1,17 +1,21 @@
-
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url('./Fonts/HelveticaNeue-UltraLight.otf') format('opentype');
+  font-style: 'normal';
+}
 
 body, .App {
   text-align: center;
   background-color: black;
   color: white;
+  font-family: "Helvetica Neue";
 }
 .btn, .startTimer, .stopTimer{
-  font-family: 'Helvetica-Light', Helvetica, Arial, sans-serif;
   font-weight: 300;
   text-align: center;
-  height: 16vw;
-  width: 16vw;
-  font-size: 5vw;
+  height: 22vw;
+  width: 22vw;
+  font-size: 6vw;
   border-radius: 50%;
   border: solid 2px black;
   display: inline-flex;
@@ -39,7 +43,7 @@ body, .App {
   margin-left: 10vw;
 }
 .btnContainer{
-  height: 21vw;
+  height: 30vw;
   position: static;
 }
 .startStopBtn{
@@ -65,7 +69,6 @@ button:disabled{
 }
 .timer{
   font-size: 10vw;
-  font-family: 'Helvetica-Light', Helvetica, Arial, sans-serif;
   font-weight: 300;
   font-size: 22vw;
   margin-top: 10vh;
@@ -80,7 +83,7 @@ button:disabled{
 }
 .lapContainer{
   font-size: 3vw;
-  font-family: Helvetica, sans-serif;
+  font-weight: 400;
   color: white;
   text-align: center;
   padding: 0;
@@ -88,11 +91,21 @@ button:disabled{
   display: flex;
   flex-direction: column;
 }
-.lapContainer ul{
+.lapContainer{
   position: relative;
   width: 100%;
   height: 50%;
   overflow: scroll;
+}
+h3{
+  font-size: 1.25em
+}
+ul{
+  margin-left: 7vw;
+  margin-right: 7vw;
+  padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 li {
   display: flex;
@@ -105,7 +118,7 @@ li {
   margin-left: 4vw;
   }
   .lapStopTime {
-    margin-left: 50vw;
+    margin-left: 52vw;
   display: flex;
   margin-right: 4vw;
   }
