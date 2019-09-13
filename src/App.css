@@ -4,10 +4,21 @@
   font-style: 'normal';
 }
 
+:root{
+  --greenBtnColor: rgba(55, 94, 3, 0.6);
+  --greenBtnText: #4FC53D;
+  --redBtnColor: rgba(144, 9, 9, 0.6);
+  --lightGreyBtnColor: rgba(166, 166, 166, 0.6);
+  --darkGreyBtnColor: rgba(48, 48, 48, 0.6);
+  --blackColor: black;
+  --whitecolor: white;
+}
+
+
 body, .App {
   text-align: center;
-  background-color: black;
-  color: white;
+  background-color: var(--blackColor);
+  color: var(--whitecolor);
   font-family: "Helvetica Neue";
 }
 .btn, .startTimer, .stopTimer{
@@ -17,22 +28,22 @@ body, .App {
   width: 22vw;
   font-size: 6vw;
   border-radius: 50%;
-  border: solid 2px black;
+  border: solid 2px var(--blackColor);
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .startTimer {
-  color: #4FC53D;
-  background-color: rgba(55, 94, 3, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(55, 94, 3, 0.6);
+  color: var(--greenBtnText);
+  background-color: var(--greenBtnColor);
+  box-shadow: 0px 0px 0px 2px var(--greenBtnColor);
 }
 
 .stopTimer {
   color: red;
-  background-color: rgba(144, 9, 9, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(144, 9, 9, 0.6);
+  background-color: var(--redBtnColor);
+  box-shadow: 0px 0px 0px 2px var(--redBtnColor);
 }
 .startTimer, .stopTimer {
   float: right;
@@ -46,26 +57,22 @@ body, .App {
   height: 30vw;
   position: static;
 }
-.startStopBtn{
-  color: #4FC53D;
-  background-color: rgba(55, 94, 3, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(55, 94, 3, 0.6);
-}
+
 .lapBtn{
-  color: white;
-  background-color:rgba(166, 166, 166, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(166, 166, 166, 0.6);
+  color: var(--whitecolor);
+  background-color:var(--lightGreyBtnColor);
+  box-shadow: 0px 0px 0px 2px var(--lightGreyBtnColor);
 }
 button:disabled{
   color: rgba(166, 166, 166, 1);
-  background-color: rgba(48, 48, 48, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(48, 48, 48, 0.6);
+  background-color: var(--darkGreyBtnColor);
+  box-shadow: 0px 0px 0px 2px var(--darkGreyBtnColor);
 }
 
 .resetBtn{
-  color: white;
-  background-color:rgba(166, 166, 166, 0.6);
-  box-shadow: 0px 0px 0px 2px rgba(166, 166, 166, 0.6);
+  color: var(--whitecolor);
+  background-color:var(--lightGreyBtnColor);
+  box-shadow: 0px 0px 0px 2px var(--lightGreyBtnColor);
 }
 .timer{
   font-size: 10vw;
@@ -82,7 +89,7 @@ button:disabled{
 .lapContainer{
   font-size: 3vw;
   font-weight: 400;
-  color: white;
+  color: var(--whitecolor);
   text-align: center;
   padding: 0;
   display: flex;
@@ -104,7 +111,7 @@ ul{
 }
 li {
   display: flex;
-  border-top: solid 0.7px rgba(166, 166, 166, 0.6);
+  border-top: solid 0.7px var(--lightGreyBtnColor);
   list-style: none
 }
 .lapNo{
@@ -113,7 +120,7 @@ li {
   margin-left: 4vw;
   }
   .lapStopTime {
-    margin-left: 52vw;
+  margin-left: 52vw;
   display: flex;
   margin-right: 4vw;
   }
