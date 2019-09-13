@@ -78,7 +78,6 @@ class Stopwatch extends React.Component {
   };
 
   render() {
-    console.log(this.state)
     const { status, runningTime, prevLapTime, laps, minLap, maxLap } = this.state;
     return (
       <div>
