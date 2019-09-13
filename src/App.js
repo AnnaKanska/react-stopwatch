@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { tsImportEqualsDeclaration } from "@babel/types";
+import { stat } from "fs";
 
 class App extends React.Component {
   render() {
@@ -97,28 +97,31 @@ class Stopwatch extends React.Component {
 
   render() {
     const { status, runningTime, laps, minLap, maxLap } = this.state;
+    console.log(laps.length)
     return (
       <div>
-        <h2>{this.getTimeAsAString(runningTime)}</h2>
-        <button className="btn startStopBtn" onClick={this.handleStartStop}>
+        <h2 className="timer">{this.getTimeAsAString(runningTime)}</h2>
+        <div className="btnContainer">
+        <button className={status ? 'stopTimer' : 'startTimer'} onClick={this.handleStartStop}>
           {status ? "Stop" : "Start"}
         </button>
-        <button className="btn lapBtn" onClick={this.handleLap}>
+        <button disabled={!status} className="btn lapBtn" onClick={this.handleLap} style={{display: !status && (laps.length > 0) ? 'none' : 'flex'}}>
           Lap
         </button>
-        <button className="btn resetBtn" onClick={this.handleReset}>
+        <button className="btn resetBtn" onClick={this.handleReset} style={{display: !status && (laps.length > 0) ? 'flex' : 'none'}}>
           Reset
         </button>
+        </div>
         <div className="lapContainer">
           <ul>
             {laps.map((lap) => (
-              <li key={lap.id} style={{color: lap.id === minLap ? 'green' 
-                : lap.id === maxLap ? 'red' 
-                : lap.id === minLap && lap.id === maxLap ? 'black' 
-                : 'black'
+              <li key={lap.id} style={{color: (laps.length <= 2) ? 'white'
+                : lap.id === minLap ? 'green' 
+                : lap.id === maxLap ? 'red'
+                : 'white'
             }}>
-                <h3>Lap {lap.id}</h3>
-              <h3>{this.getTimeAsAString(lap.time)}</h3>
+              <h3 className="lapNo">Lap {lap.id}</h3>
+              <h3 className="lapStopTime">{this.getTimeAsAString(lap.time)}</h3>
               </li>
             ))}
           </ul>

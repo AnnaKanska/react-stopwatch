@@ -1,39 +1,99 @@
-.App {
+
+
+body, .App {
   text-align: center;
-}
-.green{
-  color: green
-}
-.red{
-  color: red
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: black;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.btn, .startTimer, .stopTimer{
+  font-family: 'Helvetica-Light', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+  height: 16vw;
+  width: 16vw;
+  font-size: 5vw;
+  border-radius: 50%;
+  border: solid 2px black;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.startTimer {
+  color: #4FC53D;
+  background-color: rgba(55, 94, 3, 0.6);
+  box-shadow: 0px 0px 0px 2px rgba(55, 94, 3, 0.6);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.stopTimer {
+  color: red;
+  background-color: rgba(144, 9, 9, 0.6);
+  box-shadow: 0px 0px 0px 2px rgba(144, 9, 9, 0.6);
 }
+.startTimer, .stopTimer {
+  float: right;
+  margin-right: 10vw;
+}
+.lapBtn, .resetBtn{
+  float: left;
+  margin-left: 10vw;
+}
+.btnContainer{
+  height: 21vw;
+  position: static;
+}
+.startStopBtn{
+  color: #4FC53D;
+  background-color: rgba(55, 94, 3, 0.6);
+  box-shadow: 0px 0px 0px 2px rgba(55, 94, 3, 0.6);
+}
+.lapBtn{
+  color: rgba(166, 166, 166, 1);
+  background-color: rgba(48, 48, 48, 0.6);
+  box-shadow: 0px 0px 0px 2px rgba(48, 48, 48, 0.6);
+}
+
+.resetBtn{
+  color: white;
+  background-color:rgba(166, 166, 166, 0.6);
+  box-shadow: 0px 0px 0px 2px rgba(166, 166, 166, 0.6);
+}
+.timer{
+  font-size: 10vw;
+  font-family: 'Helvetica-Light', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 22vw;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  text-align: center;
+  position: static;
+}
+.lapContainer{
+  font-size: 3vw;
+  font-family: Helvetica, sans-serif;
+  color: white;
+  text-align: center;
+  padding: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 50%;
+  overflow: scroll;
+}
+li {
+  display: flex;
+  border-top: solid 0.7px rgba(166, 166, 166, 0.6);
+  list-style: none
+}
+.lapNo{
+  float: left;
+  display: flex;
+  margin-left: 4vw;
+  }
+  .lapStopTime {
+    margin-left: 50vw;
+  display: flex;
+  margin-right: 4vw;
+  }
